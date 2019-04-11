@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+html, body {
+	height: 100%;	
+}
+
+body {
+	color: #5A5A5A;
+	font-family: sans-serif;
+	background-color: #FAFAFA;
+}
+
+#choice-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: rgba(255, 255, 255, 0.8);
+	padding: 50px 50px;
+}
+
+#btn-choice-elt {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.btn-choice {
+	width: 48%;
+	font-size: 1.2em;
+	text-align: center;
+	padding: 50px 5px;
+}
+
+#header {
+	-webkit-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.77);
+	-moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.77);
+	box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.77);
+}
