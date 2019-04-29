@@ -26,7 +26,41 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<form action="ModifierVille" method="POST">
+					<input type="hidden" name="codeCommuneINSEE" value="${ villeFrance.getCodeCommuneINSEE() }">
+					<div class="form-row">
+					    <div class="form-group col-md-6">
+				        	<label for="nomCommune">Nom commune</label>
+					    	<input type="text" class="form-control form-control-lg" id="nomCommune" name="nomCommune" placeholder="Nom commune" value="${ villeFrance.getNomCommune() }">
+					    </div>
+					    <div class="form-group col-md-6">
+					    	<label for="codePostal">Code postal</label>
+					    	<input type="text" class="form-control form-control-lg" id="codePostal" name="codePostal" placeholder="Code postal" value="${ villeFrance.getCodePostal() }">
+					    </div>
+					</div>
+					<div class="form-row">
+					    <div class="form-group col-md-6">
+				        	<label for="libelleAcheminement">Libellé acheminement</label>
+					    	<input type="text" class="form-control form-control-lg" id="libelleAcheminement" name="libelleAcheminement" placeholder="Libellé Acheminement" value="${ villeFrance.getLibelleAcheminement() }">
+					    </div>
+					    <div class="form-group col-md-6">
+					    	<label for="ligne5">Ligne 5</label>
+					    	<input type="text" class="form-control form-control-lg" id="ligne5" name="ligne5" placeholder="Ligne 5" value="${ villeFrance.getLigne5() }">
+					    </div>
+					</div>
+					<div class="form-row">
+					    <div class="form-group col-md-6">
+				        	<label for="latitude">Latitude</label>
+					    	<input type="text" class="form-control form-control-lg" id="latitude" name="latitude" placeholder="Latitude" value="${ villeFrance.getLatitude() }">
+					    </div>
+					    <div class="form-group col-md-6">
+					    	<label for="longitude">Longitude</label>
+					    	<input type="text" class="form-control form-control-lg" id="longitude" name="longitude" placeholder="Longitude" value="${ villeFrance.getLongitude() }">
+					    </div>
+					</div>
 					
+					<div class="row justify-content-center mt-4">
+						<button type="submit" class="btn btn-primary btn-lg">Enregistrer les modifications</button>
+					</div>
 				</form>
 			</div>
 		</div>

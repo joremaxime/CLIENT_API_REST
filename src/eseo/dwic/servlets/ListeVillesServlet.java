@@ -67,11 +67,11 @@ public class ListeVillesServlet extends HttpServlet implements Servlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int offset = (int) Integer.parseInt(request.getParameter("offset"));
-		
-		String url = URL_API_REST + METHODE_GET_WITH_PAGINATION;
-
 		try {
+			int offset = (int) Integer.parseInt(request.getParameter("offset"));
+			
+			String url = URL_API_REST + METHODE_GET_WITH_PAGINATION;
+			
 			ArrayList<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url + "?offset=" + offset);
 			
 			for (VilleFrance villeFrance : villesFrance) {			

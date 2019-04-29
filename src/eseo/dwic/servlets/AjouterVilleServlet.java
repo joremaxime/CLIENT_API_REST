@@ -1,7 +1,6 @@
 package eseo.dwic.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,27 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-import eseo.dwic.beans.VilleFrance;
-import eseo.dwic.utilitaires.RestResponse;
-
 /**
- * Servlet implementation class ModifierVilleServlet
+ * Servlet implementation class AjouterVilleServlet
  */
-@WebServlet(name = "ModifierVille", urlPatterns = { "/ModifierVille" })
-public class ModifierVilleServlet extends HttpServlet {
+@WebServlet(name = "AjouterVille", urlPatterns = { "/AjouterVille" })
+public class AjouterVilleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String VUE_FORM = "/modifierVille.jsp";
+	
+	private static final String VUE_FORM = "/ajouterVille.jsp";
 	private static final String URL_API_REST = "http://localhost:8181/";
-	private static final String METHODE_GET = "get";
-	private static final String METHODE_PUT = "put";
+	private static final String METHODE_POST = "post";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ModifierVilleServlet() {
+    public AjouterVilleServlet() {
         super();
     }
 
@@ -39,14 +35,14 @@ public class ModifierVilleServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.sendRedirect("/CLIENT_API_REST/ListeVilles");
+		RequestDispatcher dispatch = request.getRequestDispatcher(VUE_FORM);
+		dispatch.forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		if (request.getParameter("codeCommuneINSEE") != null && request.getParameter("nomCommune") != null &&
 				request.getParameter("codePostal") != null && request.getParameter("libelleAcheminement") != null &&
 				request.getParameter("ligne5") != null && request.getParameter("latitude") != null &&
@@ -60,29 +56,19 @@ public class ModifierVilleServlet extends HttpServlet {
 			String latitude = deleteSpace(request.getParameter("latitude"));
 			String longitude = deleteSpace(request.getParameter("longitude"));
 			
-			String url = URL_API_REST + METHODE_PUT + "?codeCommuneINSEE=" + codeCommuneINSEE + "&nomCommune=" + nomCommune + 
+			String url = URL_API_REST + METHODE_POST + "?codeCommuneINSEE=" + codeCommuneINSEE + "&nomCommune=" + nomCommune + 
 					"&codePostal=" + codePostal + "&libelleAcheminement=" + libelleAcheminement +
 					"&ligne5=" + ligne5 + "&latitude=" + latitude + "&longitude=" + longitude;
 									
 			HttpClient client = HttpClientBuilder.create().build();
-			HttpPut httpPut = new HttpPut(url);
-			client.execute(httpPut);
+			HttpPost httpPost = new HttpPost(url);
+			client.execute(httpPost);
 			
 			response.sendRedirect("/CLIENT_API_REST/ListeVilles");
+			
 		} else {
-			String codeCommuneINSEE = request.getParameter("codeCommuneINSEE");
-			
-			String url = URL_API_REST + METHODE_GET + "?codeCommuneINSEE=" + codeCommuneINSEE;
-			
-			System.out.println(url);
-			
-			ArrayList<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url);
-			
-			request.setAttribute("villeFrance", villesFrance.get(0));
-			RequestDispatcher dispatch = request.getRequestDispatcher(VUE_FORM);
-			dispatch.forward(request, response);
+			doGet(request, response);
 		}
-		
 	}
 	
 	private String deleteSpace(String str) {

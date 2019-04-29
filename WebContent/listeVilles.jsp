@@ -29,16 +29,20 @@
 			<div class="row justify-content-between">
 				<div <c:if test="${ offset <= 0 }">style="visibility: hidden;"</c:if>>
 					<form method="POST" action="ListeVilles">
-						<input type="hidden" name="offset" value="${ offset - 50 }" />
+						<input type="hidden" name="offset" value="${ offset - 20 }" />
 						<button type="submit" class="btn btn-outline-primary"><i class="fas fa-chevron-left mr-3"></i>Villes Précédentes</button>
 					</form>
 				</div>
-				<div <c:if test="${ villesFrance.size() < 50 }">style="visibility: hidden;"</c:if>>
+				<div <c:if test="${ villesFrance.size() < 20 }">style="visibility: hidden;"</c:if>>
 					<form method="POST" action="ListeVilles">
-						<input type="hidden" name="offset" value="${ offset + 50 }" />
+						<input type="hidden" name="offset" value="${ offset + 20 }" />
 						<button type="submit" class="btn btn-outline-primary">Pages Suivantes<i class="fas fa-chevron-right ml-3"></i></button>
 					</form>
 				</div>
+			</div>
+			
+			<div class="row mt-3 justify-content-center">
+				<a href="AjouterVille" class="btn btn-primary">Ajouter une ville</a> 
 			</div>
 			
 			<div class="row mt-5">
@@ -60,8 +64,14 @@
 							    <td class="align-middle">${ villeFrance.getCodePostal() }</td>
 							    <td class="align-middle">${ villeFrance.getTemperature() } °C <img src="<c:out value="${ villeFrance.getWeather() }" />" title="<c:out value="${ villeFrance.getWeatherDescription() }" />" /></td>
 							    <td class="align-middle">
-							    	<a href="ModifierVille" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-							    	<a href="SupprimerVille" class="btn btn-outline-danger"><i class="fas fa-trash"></i></a>
+							    	<form method="POST" action="ModifierVille">
+							    		<input type="hidden" name="codeCommuneINSEE" value="${ villeFrance.getCodeCommuneINSEE() }" />
+							    		<button type="submit" class="btn btn-outline-warning"><i class="fas fa-edit"></i></button>
+							    	</form>
+							    	<form method="POST" action="SupprimerVille">
+							    		<input type="hidden" name="codeCommuneINSEE" value="${ villeFrance.getCodeCommuneINSEE() }" />
+							    		<button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
+							    	</form>
 							    </td>
 							</tr>
 						</c:forEach>

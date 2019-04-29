@@ -1,6 +1,8 @@
 package eseo.dwic.servlets;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -23,7 +25,7 @@ public class DistancesServlet extends HttpServlet {
 	private static final String VUE_FORM = "/distances.jsp";
 	private static final String URL_API_REST = "http://localhost:8181/";
 	private static final String METHODE_GET = "get";
-	private static final int RAYON_TERRESTRE = 6367445;
+	private static final int RAYON_TERRESTRE = 6371;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -61,7 +63,7 @@ public class DistancesServlet extends HttpServlet {
 			request.setAttribute("villeFranceA", villeFranceA);
 			request.setAttribute("villeFranceB", villeFranceB);
 			
-			double distance = calculerDistance(villeFranceA, villeFranceB);
+			String distance = calculerDistance(villeFranceA, villeFranceB);
 			
 			request.setAttribute("distance", distance);
 			request.setAttribute("displayDistance", true);
@@ -71,15 +73,17 @@ public class DistancesServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private static double calculerDistance(VilleFrance villeFranceA, VilleFrance villeFranceB) {
-		double latitudeA = (double) Double.parseDouble(villeFranceA.getLatitude());
-		double latitudeB = (double) Double.parseDouble(villeFranceB.getLatitude());
-		double longitudeA = (double) Double.parseDouble(villeFranceA.getLongitude());
-		double longitudeB = (double) Double.parseDouble(villeFranceB.getLongitude());
+	private static String calculerDistance(VilleFrance villeFranceA, VilleFrance villeFranceB) {
+		double latitudeA = Math.toRadians((double) Double.parseDouble(villeFranceA.getLatitude()));
+		double latitudeB = Math.toRadians((double) Double.parseDouble(villeFranceB.getLatitude()));
+		double longitudeA = Math.toRadians((double) Double.parseDouble(villeFranceA.getLongitude()));
+		double longitudeB = Math.toRadians((double) Double.parseDouble(villeFranceB.getLongitude()));
 		
-		double distance = RAYON_TERRESTRE * Math.acos(Math.sin(latitudeA)*Math.sin(latitudeB) + Math.cos(latitudeA)*Math.cos(latitudeB)*Math.cos(longitudeA - longitudeB));
-		
-		return Math.round((distance / 1000) * 100) / 100;
+		double distance = Math.acos(Math.sin(latitudeA) * Math.sin(latitudeB) + Math.cos(latitudeA) * Math.cos(latitudeB) * Math.cos(longitudeB - longitudeA)) * RAYON_TERRESTRE;
+
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		return df.format(distance);
 	}
 	
 }
