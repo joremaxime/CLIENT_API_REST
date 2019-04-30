@@ -1,11 +1,11 @@
 package eseo.dwic.beans;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Meteo {
 
 	private Coord coord;
-	private ArrayList<Weather> weather;
+	private List<Weather> weather;
 	private String base;
 	private Main main;
 	private String visibility;
@@ -16,20 +16,20 @@ public class Meteo {
 	private int id;
 	private String name;
 	private int cod;
-	
+
 	public Coord getCoord() {
 		return coord;
 	}
-	
+
 	public void setCoord(Coord coord) {
 		this.coord = coord;
 	}
 
-	public ArrayList<Weather> getWeather() {
+	public List<Weather> getWeather() {
 		return weather;
 	}
 
-	public void setWeather(ArrayList<Weather> weather) {
+	public void setWeather(List<Weather> weather) {
 		this.weather = weather;
 	}
 
@@ -119,5 +119,5 @@ public class Meteo {
 				+ " visibility=" + this.visibility + ", wind=" + this.wind.toString() + ", clouds=" + this.clouds.toString() + ","
 						+ " dt=" + this.dt + ", sys=" + this.sys.toString() + ", id=" + this.id + ", name=" + this.name + ", cod=" + this.cod + "]";
 	}
-	
+
 }

@@ -1,12 +1,12 @@
 package eseo.dwic.beans;
 
 public class Weather {
-	
+
 	private int id;
 	private String main;
 	private String description;
 	private String icon;
-	
+
 	public int getId() {
 		return id;
 	}

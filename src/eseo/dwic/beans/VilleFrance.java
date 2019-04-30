@@ -13,7 +13,7 @@ public class VilleFrance {
 	private double temperature;
 	private String weather;
 	private String weatherDescription;
-	
+
 	public VilleFrance() {
 		super();
 	}
@@ -73,7 +73,7 @@ public class VilleFrance {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -113,5 +113,5 @@ public class VilleFrance {
 				+ latitude + ", longitude=" + longitude + ", isActive=" + isActive + ", temperature=" + temperature
 				+ ", weather=" + weather + ", weatherDescription=" + weatherDescription + "]";
 	}
-	
+
 }

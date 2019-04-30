@@ -17,10 +17,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 @WebServlet(name = "SupprimerVille", urlPatterns = { "/SupprimerVille" })
 public class SupprimerVilleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String URL_API_REST = "http://localhost:8181/";
 	private static final String METHODE_DELETE = "delete";
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,17 +40,17 @@ public class SupprimerVilleServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		if (request.getParameter("codeCommuneINSEE") != null) {
 			String codeCommuneINSEE = request.getParameter("codeCommuneINSEE");
-			
+
 			String url = URL_API_REST + METHODE_DELETE + "/" + codeCommuneINSEE;
-						
+		
 			HttpClient client = HttpClientBuilder.create().build();
 			HttpDelete httpDelete = new HttpDelete(url);
 			client.execute(httpDelete);
 		}
-		
+
 		doGet(request, response);
 	}
 

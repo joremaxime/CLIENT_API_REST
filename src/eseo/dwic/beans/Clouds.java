@@ -3,7 +3,7 @@ package eseo.dwic.beans;
 public class Clouds {
 
 	private int all;
-	
+
 	public int getAll() {
 		return all;
 	}
@@ -16,5 +16,5 @@ public class Clouds {
 	public String toString() {
 		return "Clouds [all=" + this.all + "]";
 	}
-	
+
 }

@@ -1,7 +1,7 @@
 package eseo.dwic.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -28,7 +28,7 @@ public class ListeVillesServlet extends HttpServlet implements Servlet {
 	private static final String URL_API_METEO_ICON = "http://openweathermap.org/img/w/";
 	private static final String METEO_API_KEY = "05426f15f776f166460c18994709fde8";
 	private static final double CONVERSION_KELVIN_TO_DEGREE = 273.15;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -42,23 +42,23 @@ public class ListeVillesServlet extends HttpServlet implements Servlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = URL_API_REST + METHODE_GET_WITH_PAGINATION;
-		
-		ArrayList<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url + "?offset=0");
-		
+
+		List<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url + "?offset=0");
+
 		for (VilleFrance villeFrance : villesFrance) {			
-			String url_meteo = URL_API_METEO + "?lat=" + villeFrance.getLatitude() + "&lon=" + villeFrance.getLongitude() + "&APPID=" + METEO_API_KEY;
-			
-			Meteo meteo = RestResponse.getAPIRestMeteoDeserialized(url_meteo);
+			String urlMeteo = URL_API_METEO + "?lat=" + villeFrance.getLatitude() + "&lon=" + villeFrance.getLongitude() + "&APPID=" + METEO_API_KEY;
+
+			Meteo meteo = RestResponse.getAPIRestMeteoDeserialized(urlMeteo);
 			double temperature = Math.round((meteo.getMain().getTemp() - CONVERSION_KELVIN_TO_DEGREE) * 100) / 100;
 			villeFrance.setTemperature(temperature);
 			villeFrance.setWeather(URL_API_METEO_ICON + meteo.getWeather().get(0).getIcon() + ".png");
 			villeFrance.setWeatherDescription(meteo.getWeather().get(0).getDescription());
 		}
-		
+
 		request.setAttribute("villesFrance", villesFrance);
-		
+
 		request.setAttribute("offset", 0);
-		
+
 		RequestDispatcher dispatch = request.getRequestDispatcher(VUE_FORM);
 		dispatch.forward(request, response);
 	}
@@ -69,30 +69,31 @@ public class ListeVillesServlet extends HttpServlet implements Servlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			int offset = (int) Integer.parseInt(request.getParameter("offset"));
-			
+
 			String url = URL_API_REST + METHODE_GET_WITH_PAGINATION;
-			
-			ArrayList<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url + "?offset=" + offset);
-			
+
+			List<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url + "?offset=" + offset);
+
 			for (VilleFrance villeFrance : villesFrance) {			
-				String url_meteo = URL_API_METEO + "?lat=" + villeFrance.getLatitude() + "&lon=" + villeFrance.getLongitude() + "&APPID=" + METEO_API_KEY;
-				
-				Meteo meteo = RestResponse.getAPIRestMeteoDeserialized(url_meteo);
+				String urlMeteo = URL_API_METEO + "?lat=" + villeFrance.getLatitude() + "&lon=" + villeFrance.getLongitude() + "&APPID=" + METEO_API_KEY;
+
+				Meteo meteo = RestResponse.getAPIRestMeteoDeserialized(urlMeteo);
 				double temperature = Math.round((meteo.getMain().getTemp() - CONVERSION_KELVIN_TO_DEGREE) * 100) / 100;
 				villeFrance.setTemperature(temperature);
 				villeFrance.setWeather(URL_API_METEO_ICON + meteo.getWeather().get(0).getIcon() + ".png");
 				villeFrance.setWeatherDescription(meteo.getWeather().get(0).getDescription());
 			}
-			
+
 			request.setAttribute("villesFrance", villesFrance);
 			request.setAttribute("offset", offset);
-			
+
 			RequestDispatcher dispatch = request.getRequestDispatcher(VUE_FORM);
 			dispatch.forward(request, response);
 		} catch (Exception e) {
 			doGet(request, response);
+			throw new RuntimeException(e);
 		}
-		
+
 	}
 
 }

@@ -7,7 +7,7 @@ public class Main {
 	private double pressure;
 	private double temp_min;
 	private double temp_max;
-	
+
 	public double getTemp() {
 		return temp;
 	}
@@ -52,5 +52,5 @@ public class Main {
 	public String toString() {
 		return "Main [temp=" + this.temp + ", humidity=" + this.humidity + ", pressure=" + this.pressure + ", temp_min=" + this.temp_min + ", temp_max=" + this.temp_max + "]";
 	}
-	
+
 }

@@ -4,7 +4,7 @@ public class Coord {
 
 	private double lon;
 	private double lat;
-	
+
 	public double getLon() {
 		return lon;
 	}
@@ -25,5 +25,5 @@ public class Coord {
 	public String toString() {
 		return "Coord [lon=" + this.lon + ", lat=" + this.lat + "]";
 	}
-	
+
 }

@@ -1,7 +1,7 @@
 package eseo.dwic.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class ModifierVilleServlet extends HttpServlet {
 	private static final String URL_API_REST = "http://localhost:8181/";
 	private static final String METHODE_GET = "get";
 	private static final String METHODE_PUT = "put";
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -46,12 +46,12 @@ public class ModifierVilleServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		if (request.getParameter("codeCommuneINSEE") != null && request.getParameter("nomCommune") != null &&
 				request.getParameter("codePostal") != null && request.getParameter("libelleAcheminement") != null &&
 				request.getParameter("ligne5") != null && request.getParameter("latitude") != null &&
 				request.getParameter("longitude") != null) {
-			
+
 			String codeCommuneINSEE = deleteSpace(request.getParameter("codeCommuneINSEE"));
 			String nomCommune = deleteSpace(request.getParameter("nomCommune"));
 			String codePostal = deleteSpace(request.getParameter("codePostal"));
@@ -59,33 +59,31 @@ public class ModifierVilleServlet extends HttpServlet {
 			String ligne5 = deleteSpace(request.getParameter("ligne5"));
 			String latitude = deleteSpace(request.getParameter("latitude"));
 			String longitude = deleteSpace(request.getParameter("longitude"));
-			
+
 			String url = URL_API_REST + METHODE_PUT + "?codeCommuneINSEE=" + codeCommuneINSEE + "&nomCommune=" + nomCommune + 
 					"&codePostal=" + codePostal + "&libelleAcheminement=" + libelleAcheminement +
 					"&ligne5=" + ligne5 + "&latitude=" + latitude + "&longitude=" + longitude;
-									
+					
 			HttpClient client = HttpClientBuilder.create().build();
 			HttpPut httpPut = new HttpPut(url);
 			client.execute(httpPut);
-			
+
 			response.sendRedirect("/CLIENT_API_REST/ListeVilles");
 		} else {
 			String codeCommuneINSEE = request.getParameter("codeCommuneINSEE");
-			
+
 			String url = URL_API_REST + METHODE_GET + "?codeCommuneINSEE=" + codeCommuneINSEE;
-			
-			System.out.println(url);
-			
-			ArrayList<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url);
-			
+	
+			List<VilleFrance> villesFrance = RestResponse.getAPIRestVillesFranceDeserialized(url);
+
 			request.setAttribute("villeFrance", villesFrance.get(0));
 			RequestDispatcher dispatch = request.getRequestDispatcher(VUE_FORM);
 			dispatch.forward(request, response);
 		}
-		
+
 	}
-	
-	private String deleteSpace(String str) {
+
+	private static String deleteSpace(String str) {
 		return str.replaceAll(" ", "%20");
 	}
 
